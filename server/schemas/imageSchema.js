@@ -5,6 +5,7 @@ const rateMyPlateSchema = new core.Schema({
   contentType: String,
   image: Buffer,
   rating: Number,
+  rated: { type: Boolean, default: false },
 });
 
 const rateMyPlateModel = core.mongoose.model('ratemyplate', rateMyPlateSchema);

@@ -37,17 +37,15 @@
 
     <div class="body">
         <div id="text">You have 0 ratings left today</div>
-        <div id="mugshots"></div>
+        <div id="ratemyplate"></div>
     </div>
 
 
 </body>
 <script>
-    // const played = false;
-    // window.localStorage.setItem('played', played);
-    let date = window.localStorage.getItem('datePlayed');
-    let game = window.localStorage.getItem('played');
     let user = window.localStorage.getItem('userId');
+    var rated = localStorage.getItem("rated");
+    var stringArray = JSON.parse(rated);
 
     // get images
     fetch('http://localhost:8080/api/photos').then(res => res.json()).then(data => {
@@ -70,7 +68,7 @@
       `
         }).join('');
         document
-            .querySelector('#mugshots')
+            .querySelector('#ratemyplate')
             .insertAdjacentHTML('afterbegin', html);
 
         // disable users mug
@@ -80,22 +78,26 @@
             let mine = usersMug.childNodes[3];
             mine.childNodes[3].style.display = 'none';
             mine.childNodes[1].style.padding = "45px 0px 37px 0px";
-
         }
+
+        let test = data.map((item2) => {
+            const savedItem = stringArray.find((item1) => {
+                item1.id === item2
+            });
+            return savedItem ? { ...item2, rated: true } : item2;
+        })
+
+        console.log(test)
 
         // loads javascript after data
         submitRate('0');
-        if (date != new Date().setHours(0, 0, 0, 0)) {
-            window.localStorage.removeItem('played')
-            window.localStorage.removeItem('datePlayed')
-        }
-        if (game == 'true') {
-            document.getElementById('text').style.display = 'flex';
-            let button = document.querySelectorAll('#submit');
-            for (let i = 0; i < button.length; i++) {
-                button[i].classList.add('btn-disabled')
-            }
-        }
+        // if (game == 'true') {
+        //     document.getElementById('text').style.display = 'flex';
+        //     let button = document.querySelectorAll('#submit');
+        //     for (let i = 0; i < button.length; i++) {
+        //         button[i].classList.add('btn-disabled')
+        //     }
+        // }
     });
 
     function submitRate(id) {
@@ -109,11 +111,11 @@
                     body: JSON.stringify({ rating: parseInt(input[0].value) }),
                 }).then(response => response.json())
                     .then(data => {
+                        stringArray.push(div.id)
+                        localStorage.setItem("rated", JSON.stringify(stringArray));
                         window.location.reload()
-                        const played = true;
-                        let date = new Date().setHours(0, 0, 0, 0);
-                        window.localStorage.setItem('played', played)
-                        window.localStorage.setItem('datePlayed', date)
+                        // let date = new Date().setHours(0, 0, 0, 0);
+                        // window.localStorage.setItem('datePlayed', date)
                     });
             } else {
                 alert('Incorrect input data')

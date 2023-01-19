@@ -49,6 +49,7 @@ core.app.get('/api/photos', async (req, res) => {
     let model = {
       id: item._id,
       rating: item.rating,
+      rated: item.rated,
     };
     return model;
   });
