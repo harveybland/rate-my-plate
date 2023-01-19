@@ -120,34 +120,6 @@ header h1 {
   margin-right: 5px;
 }
 
-.list:hover .mugboard {
-  background-color: transparent;
-  color: transparent;
-}
-
-.list:hover .mugboard div {
-  background-color: transparent;
-  color: transparent;
-  border: none;
-}
-
-.list:hover .mugboard div p {
-  border: none;
-}
-
-.list .mugboard {
-  background-color: #000;
-  width: 200px;
-  color: #eee;
-  height: 90px;
-  margin-top: -50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* border-radius: 10px; */
-}
-
 .list .form {
   display: flex;
   align-items: center;

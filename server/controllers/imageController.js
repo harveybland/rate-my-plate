@@ -30,7 +30,6 @@ core.app.post(
         contentType: req.file.mimetype,
         image: Buffer.from(encode_image, 'base64'),
         rating: 0,
-        policeNum: 0,
       });
 
       let string = JSON.stringify(result);

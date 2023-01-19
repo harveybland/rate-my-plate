@@ -27,11 +27,11 @@
 <body>
     <header>
         <h1>
-            <a href="https://mugshots.netlify.app/index.html">Mugshots</a>
+            <a href="index.html">Rate My Plate</a>
         </h1>
         <nav>
-            <a href="https://mugshots.netlify.app/mypage.html">My Mug</a>
-            <a href="https://mugshots.netlify.app/leaderboard.html">Leaderboard</a>
+            <a href="mypage.html">My Plate</a>
+            <a href="leaderboard.html">Leaderboard</a>
         </nav>
     </header>
 
@@ -56,12 +56,6 @@
             <div class="list" id="${array.id}">
                 <div>
                     <img src="https://local-app.azurewebsites.net/api/photo/${array.id}" />
-                </div>
-                <div class="mugboard">
-                    <div>
-                        <p>POLICE DEPT</p>
-                        <span>3358${array.policeNum}<span/>
-                    </div>
                 </div>
                 <div>
                     <p>Current Rating: ${array.rating}</p>
