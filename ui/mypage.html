@@ -85,7 +85,7 @@
             <a href="index.html">Rate My Plate</a>
         </h1>
         <nav>
-            <a href="mypage.html">My Place</a>
+            <a href="mypage.html">My Plate</a>
             <a href="leaderboard.html">Leaderboard</a>
         </nav>
     </header>
@@ -117,10 +117,10 @@
         document.getElementById('delete').style.display = 'none';
         // get image
         if (!!userId) {
-            fetch(`https://local-app.azurewebsites.net/api/myphoto/${userId}`).then(res => res.json()).then(data => {
+            fetch(`http://localhost:8080/api/myphoto/${userId}`).then(res => res.json()).then(data => {
                 const id = data._id;
                 const image = document.createElement('img');
-                image.src = `https://local-app.azurewebsites.net/api/photo/${id}`;
+                image.src = `http://localhost:8080/api/photo/${id}`;
                 document.querySelector('#image').appendChild(image);
             })
 
@@ -129,7 +129,7 @@
             // delete
             document.getElementById('delete').onclick = function () {
                 window.localStorage.removeItem('userId');
-                fetch(`https://local-app.azurewebsites.net/api/myphoto/${userId}`, {
+                fetch(`http://localhost:8080/api/myphoto/${userId}`, {
                     method: 'DELETE'
                 }).then(res => res.json())
                     .then(data => window.location.reload());
@@ -162,15 +162,16 @@
 
         form.addEventListener('submit', async function (e) {
             e.preventDefault();
-            fetch(`https://local-app.azurewebsites.net/api/myphoto/${userId}`, {
+            fetch(`http://localhost:8080/api/myphoto/${userId}`, {
                 method: 'DELETE'
             })
-            let response = await fetch('https://local-app.azurewebsites.net/api/uploadphoto', {
+            let response = await fetch('http://localhost:8080/api/uploadphoto', {
                 method: 'POST',
                 body: new FormData(formElem),
             })
                 .then((res) => res.json())
                 .then((data) => {
+                    console.log(data)
                     const userId = data;
                     window.localStorage.setItem('userId', userId);
                     window.location.href = 'index.html';

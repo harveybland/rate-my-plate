@@ -26,7 +26,7 @@ core.app.post(
       var img = fs.readFileSync(req.file.path);
       var encode_image = img.toString('base64');
 
-      const result = await schemas.imagesModel.create({
+      const result = await schemas.rateMyPlateModel.create({
         contentType: req.file.mimetype,
         image: Buffer.from(encode_image, 'base64'),
         rating: 0,
@@ -34,8 +34,6 @@ core.app.post(
 
       let string = JSON.stringify(result);
       let objectV = JSON.parse(string);
-
-      // console.log(objectV['_id']);
 
       res.status(200).json(objectV['_id']);
     } catch (error) {
@@ -46,12 +44,11 @@ core.app.post(
 
 // Get photos
 core.app.get('/api/photos', async (req, res) => {
-  const images = await schemas.imagesModel.find();
+  const images = await schemas.rateMyPlateModel.find();
   const help = images.map((item) => {
     let model = {
       id: item._id,
       rating: item.rating,
-      policeNum: item.policeNum,
     };
     return model;
   });
@@ -61,7 +58,7 @@ core.app.get('/api/photos', async (req, res) => {
 
 core.app.get('/api/allphotos', async (req, resp) => {
   try {
-    const images = await schemas.imagesModel.find();
+    const images = await schemas.rateMyPlateModel.find();
     resp.status(200).json(images[0]);
   } catch {
     resp.status('404').json('error');
@@ -71,7 +68,7 @@ core.app.get('/api/allphotos', async (req, resp) => {
 // Add the photo
 core.app.get('/api/photo/:id', (req, res) => {
   var filename = req.params.id;
-  const image = schemas.imagesModel.findOne(
+  const image = schemas.rateMyPlateModel.findOne(
     { _id: ObjectId(filename) },
     (err, result) => {
       if (err) {
@@ -88,7 +85,7 @@ core.app.get('/api/photo/:id', (req, res) => {
 // Get my photo
 core.app.get('/api/myphoto/:uid', async (req, res) => {
   try {
-    const image = await schemas.imagesModel.aggregate([
+    const image = await schemas.rateMyPlateModel.aggregate([
       {
         $match: {
           _id: core.mongoose.Types.ObjectId(req.params.uid),
@@ -104,10 +101,10 @@ core.app.get('/api/myphoto/:uid', async (req, res) => {
 core.app.put('/api/rate/:uid', async (req, res) => {
   try {
     const id = req.params.uid;
-    let rate = await schemas.imagesModel.findOne({ _id: id });
+    let rate = await schemas.rateMyPlateModel.findOne({ _id: id });
     let newRate = rate.rating + req.body.rating;
     (rate.rating = newRate), rate.save();
-    const images = await schemas.imagesModel.find();
+    const images = await schemas.rateMyPlateModel.find();
     res.status(200).json(images);
   } catch {
     res.status(404).json('error');
@@ -118,8 +115,8 @@ core.app.put('/api/rate/:uid', async (req, res) => {
 core.app.delete('/api/myphoto/:uid', async (req, res) => {
   try {
     const id = req.params.uid;
-    await schemas.imagesModel.deleteOne({ _id: id });
-    const photo = await schemas.imagesModel.find();
+    await schemas.rateMyPlateModel.deleteOne({ _id: id });
+    const photo = await schemas.rateMyPlateModel.find();
     res.status(200).json('Success');
   } catch {
     res.status(404).json('error');

@@ -50,12 +50,12 @@
     let user = window.localStorage.getItem('userId');
 
     // get images
-    fetch('https://local-app.azurewebsites.net/api/photos').then(res => res.json()).then(data => {
+    fetch('http://localhost:8080/api/photos').then(res => res.json()).then(data => {
         const html = data.sort((a, b) => a < b ? 1 : -1).map((array) => {
             return `
             <div class="list" id="${array.id}">
                 <div>
-                    <img src="https://local-app.azurewebsites.net/api/photo/${array.id}" />
+                    <img src="http://localhost:8080/api/photo/${array.id}" />
                 </div>
                 <div>
                     <p>Current Rating: ${array.rating}</p>
@@ -77,8 +77,10 @@
         let usersMug = document.getElementById(`${user}`);
         if (!!usersMug) {
             usersMug.style.justifyContent = 'flex-start';
-            let submit = usersMug.childNodes[5];
-            submit.childNodes[3].style.display = 'none';
+            let mine = usersMug.childNodes[3];
+            mine.childNodes[3].style.display = 'none';
+            mine.childNodes[1].style.padding = "45px 0px 37px 0px";
+
         }
 
         // loads javascript after data
@@ -101,7 +103,7 @@
             const div = document.getElementById(`${id}`);
             let input = div.getElementsByTagName('INPUT');
             if (input[0].value > 0 && input[0].value < 11) {
-                fetch(`https://local-app.azurewebsites.net/api/rate/${id}`, {
+                fetch(`http://localhost:8080/api/rate/${id}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ rating: parseInt(input[0].value) }),

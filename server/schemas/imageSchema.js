@@ -1,12 +1,12 @@
 const { Schema } = require('mongoose');
 const core = require('../core');
 
-const imagesSchema = new core.Schema({
+const rateMyPlateSchema = new core.Schema({
   contentType: String,
   image: Buffer,
   rating: Number,
 });
 
-const imagesModel = core.mongoose.model('images', imagesSchema);
+const rateMyPlateModel = core.mongoose.model('ratemyplate', rateMyPlateSchema);
 
-module.exports.imagesModel = imagesModel;
+module.exports.rateMyPlateModel = rateMyPlateModel;

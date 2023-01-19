@@ -16,7 +16,7 @@ button {
 }
 
 .body {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 20px auto;
 }
 
@@ -98,18 +98,16 @@ header h1 {
   align-items: center;
   background-color: #fff;
   padding: 0px;
-  /* border-radius: 5px; */
-  min-width: 250px;
-  width: 250px;
+  min-width: 400px;
+  width: 400px;
   box-shadow: 1px 1px 2px 0 rgb(0 0 0 / 10%);
 }
 
 .list img {
-  width: 250px;
-  height: 260px;
+  width: 400px;
+  height: 370px;
   display: block;
-  object-fit: cover;
-  /* border-radius: 10px; */
+  /* object-fit: cover; */
 }
 
 .list p {
@@ -218,11 +216,11 @@ header h1 {
 .btn {
   width: 100%;
   border-radius: 4px;
-  padding: 14px 20px;
+  background-color: #ddd;
+  border: 1px solid #000;
+  padding: 10px 15px;
   margin: 10px 0;
-  border: none;
   border-radius: 4px;
-  cursor: pointer;
   cursor: pointer;
 }
 
@@ -266,5 +264,15 @@ header h1 {
   }
   .modal-content {
     width: 330px;
+  }
+
+  .list {
+    min-width: 300px;
+    width: 300px;
+  }
+
+  .list img {
+    width: 300px;
+    height: 330px;
   }
 }

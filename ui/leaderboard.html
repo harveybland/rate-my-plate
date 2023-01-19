@@ -56,18 +56,18 @@
 
     <div class="body">
         <div class="leaderboard">
-            <h2>Mugshots Leaderboard</h2>
+            <h2>Worst Plate Of The Week</h2>
             <div id="mugshots"></div>
         </div>
     </div>
 
     <script>
-        fetch('https://local-app.azurewebsites.net/api/photos').then(res => res.json()).then(data => {
+        fetch('http://localhost:8080/api/photos').then(res => res.json()).then(data => {
             const html = data.sort((a, b) => (a.rating < b.rating ? 1 : -1)).map((array) => {
                 return `
             <div class="list list-row">
                 <div>
-                    <img src="https://local-app.azurewebsites.net/api/photo/${array.id}" />
+                    <img src="http://localhost:8080/api/photo/${array.id}" />
                 </div>
                 <div>
                     <p>${array.rating}</p>
@@ -78,15 +78,6 @@
             document
                 .querySelector('#mugshots')
                 .insertAdjacentHTML('afterbegin', html);
-
-            const list = document.querySelectorAll('.list');
-            list[0].style.width = '100%';
-            list[1].style.width = '48%';
-            list[2].style.width = '48%';
-            const p = document.querySelectorAll('.list p');
-            p[0].style.backgroundColor = '#FFD700';
-            p[1].style.backgroundColor = '#C0C0C0';
-            p[2].style.backgroundColor = '#CD7F32';
         });
     </script>
     <script src="app.js"></script>
