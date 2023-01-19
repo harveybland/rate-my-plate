@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        #input {
+            width: 30px;
+            height: 30px;
+            margin-right: 4px;
+        }
+
+        .list {
+            min-height: 380px;
+        }
+    </style>
+    <title>Mugshots</title>
+</head>
+
+<body>
+    <header>
+        <h1>
+            <a href="https://mugshots.netlify.app/index.html">Mugshots</a>
+        </h1>
+        <nav>
+            <a href="https://mugshots.netlify.app/mypage.html">My Mug</a>
+            <button id="myBtn">Rules</button>
+            <a href="https://mugshots.netlify.app/leaderboard.html">Leaderboard</a>
+        </nav>
+    </header>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Rules</p>
+            <ul>
+                <li>Allowed to upload 1 mugshot</li>
+                <li>Rate 1 mugshot a day</li>
+                <li>Rating must be between 1 and 10</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="body">
+        <div id="text">You have 0 ratings left today</div>
+        <div id="mugshots"></div>
+    </div>
+
+
+</body>
+<script>
+    // const played = false;
+    // window.localStorage.setItem('played', played);
+    let date = window.localStorage.getItem('datePlayed');
+    let game = window.localStorage.getItem('played');
+    let user = window.localStorage.getItem('userId');
+
+    // get images
+    fetch('https://local-app.azurewebsites.net/api/photos').then(res => res.json()).then(data => {
+        const html = data.sort((a, b) => a < b ? 1 : -1).map((array) => {
+            return `
+            <div class="list" id="${array.id}">
+                <div>
+                    <img src="https://local-app.azurewebsites.net/api/photo/${array.id}" />
+                </div>
+                <div class="mugboard">
+                    <div>
+                        <p>POLICE DEPT</p>
+                        <span>3358${array.policeNum}<span/>
+                    </div>
+                </div>
+                <div>
+                    <p>Current Rating: ${array.rating}</p>
+                    <div class="form">
+                        <span>
+                            <input type="text" id="input" min="0" max="10" /> / 10
+                        </span>
+                        <button type="button" id="submit" onclick="submitRate('${array.id}')" class="btn btn-green">Submit</button>
+                    </div>
+                </div>
+            </div>
+      `
+        }).join('');
+        document
+            .querySelector('#mugshots')
+            .insertAdjacentHTML('afterbegin', html);
+
+        // disable users mug
+        let usersMug = document.getElementById(`${user}`);
+        if (!!usersMug) {
+            usersMug.style.justifyContent = 'flex-start';
+            let submit = usersMug.childNodes[5];
+            submit.childNodes[3].style.display = 'none';
+        }
+
+        // loads javascript after data
+        submitRate('0');
+        if (date != new Date().setHours(0, 0, 0, 0)) {
+            window.localStorage.removeItem('played')
+            window.localStorage.removeItem('datePlayed')
+        }
+        if (game == 'true') {
+            document.getElementById('text').style.display = 'flex';
+            let button = document.querySelectorAll('#submit');
+            for (let i = 0; i < button.length; i++) {
+                button[i].classList.add('btn-disabled')
+            }
+        }
+    });
+
+    function submitRate(id) {
+        if (id != '0') {
+            const div = document.getElementById(`${id}`);
+            let input = div.getElementsByTagName('INPUT');
+            if (input[0].value > 0 && input[0].value < 11) {
+                fetch(`https://local-app.azurewebsites.net/api/rate/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ rating: parseInt(input[0].value) }),
+                }).then(response => response.json())
+                    .then(data => {
+                        window.location.reload()
+                        const played = true;
+                        let date = new Date().setHours(0, 0, 0, 0);
+                        window.localStorage.setItem('played', played)
+                        window.localStorage.setItem('datePlayed', date)
+                    });
+            } else {
+                alert('Incorrect input data')
+            }
+        }
+    }
+
+</script>
+<script src="app.js"></script>
+
+</html>
