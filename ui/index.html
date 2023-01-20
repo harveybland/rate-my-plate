@@ -39,17 +39,27 @@
         <div id="text">You have 0 ratings left today</div>
         <div id="ratemyplate"></div>
     </div>
-
-
 </body>
+
 <script>
+    // gets userId
     let user = window.localStorage.getItem('userId');
+
+    // gets string array and converts into array
     var rated = localStorage.getItem("rated");
-    var stringArray = JSON.parse(rated);
+    let stringArray;
+
+    // sets the array
+    if (!rated) {
+        stringArray = [];
+        localStorage.setItem("rated", JSON.stringify(stringArray));
+    } else {
+        stringArray = JSON.parse(rated);
+        console.log(stringArray)
+    }
 
     // get images
     fetch('http://localhost:8080/api/photos').then(res => res.json()).then(data => {
-
         const compare = (ar1, ar2) => {
             ar1.forEach(obj1 => {
                 ar2.forEach(obj2 => {
@@ -65,7 +75,6 @@
 
         result.forEach(data => {
             if (data === true) {
-                console.log(1)
             }
         })
 
@@ -87,9 +96,7 @@
             </div>
       `
         }).join('');
-        document
-            .querySelector('#ratemyplate')
-            .insertAdjacentHTML('afterbegin', html);
+        document.querySelector('#ratemyplate').insertAdjacentHTML('afterbegin', html);
 
         // disable users mug
         let usersMug = document.getElementById(`${user}`);
@@ -99,7 +106,6 @@
             mine.childNodes[3].style.display = 'none';
             mine.childNodes[1].style.padding = "45px 0px 37px 0px";
         }
-
         submitRate('0');
     });
 
@@ -125,6 +131,5 @@
     }
 
 </script>
-<script src="app.js"></script>
 
 </html>
