@@ -49,13 +49,33 @@
 
     // get images
     fetch('http://localhost:8080/api/photos').then(res => res.json()).then(data => {
-        const html = data.sort((a, b) => a < b ? 1 : -1).map((array) => {
+
+        const compare = (ar1, ar2) => {
+            ar1.forEach(obj1 => {
+                ar2.forEach(obj2 => {
+                    if (obj1 == obj2.id) {
+                        obj2.rated = true
+                    }
+                })
+            });
+            return data
+        }
+
+        let result = compare(stringArray, data);
+
+        result.forEach(data => {
+            if (data === true) {
+                console.log(1)
+            }
+        })
+
+        const html = result.sort((a, b) => a < b ? 1 : -1).map((array) => {
             return `
             <div class="list" id="${array.id}">
                 <div>
                     <img src="http://localhost:8080/api/photo/${array.id}" />
                 </div>
-                <div>
+                <div class="${array.rated}">
                     <p>Current Rating: ${array.rating}</p>
                     <div class="form">
                         <span>
@@ -80,24 +100,7 @@
             mine.childNodes[1].style.padding = "45px 0px 37px 0px";
         }
 
-        let test = data.map((item2) => {
-            const savedItem = stringArray.find((item1) => {
-                item1.id === item2
-            });
-            return savedItem ? { ...item2, rated: true } : item2;
-        })
-
-        console.log(test)
-
-        // loads javascript after data
         submitRate('0');
-        // if (game == 'true') {
-        //     document.getElementById('text').style.display = 'flex';
-        //     let button = document.querySelectorAll('#submit');
-        //     for (let i = 0; i < button.length; i++) {
-        //         button[i].classList.add('btn-disabled')
-        //     }
-        // }
     });
 
     function submitRate(id) {
@@ -114,8 +117,6 @@
                         stringArray.push(div.id)
                         localStorage.setItem("rated", JSON.stringify(stringArray));
                         window.location.reload()
-                        // let date = new Date().setHours(0, 0, 0, 0);
-                        // window.localStorage.setItem('datePlayed', date)
                     });
             } else {
                 alert('Incorrect input data')
