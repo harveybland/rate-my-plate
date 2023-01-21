@@ -55,7 +55,6 @@
         localStorage.setItem("rated", JSON.stringify(stringArray));
     } else {
         stringArray = JSON.parse(rated);
-        console.log(stringArray)
     }
 
     // get images
@@ -66,17 +65,15 @@
                     if (obj1 == obj2.id) {
                         obj2.rated = true
                     }
+                    if (user == obj2.id) {
+                        obj2.rated = true
+                    }
                 })
             });
             return data
         }
 
         let result = compare(stringArray, data);
-
-        result.forEach(data => {
-            if (data === true) {
-            }
-        })
 
         const html = result.sort((a, b) => a < b ? 1 : -1).map((array) => {
             return `
@@ -85,7 +82,6 @@
                     <img src="http://localhost:8080/api/photo/${array.id}" />
                 </div>
                 <div class="${array.rated}">
-                    <p>Current Rating: ${array.rating}</p>
                     <div class="form">
                         <span>
                             <input type="text" id="input" min="0" max="10" /> / 10
@@ -102,9 +98,8 @@
         let usersMug = document.getElementById(`${user}`);
         if (!!usersMug) {
             usersMug.style.justifyContent = 'flex-start';
-            let mine = usersMug.childNodes[3];
-            mine.childNodes[3].style.display = 'none';
-            mine.childNodes[1].style.padding = "45px 0px 37px 0px";
+            let mine = usersMug.childNodes[3].style.display = 'none';
+            usersMug.childNodes[1].style.padding = "0px 0px 75px 0px";
         }
         submitRate('0');
     });

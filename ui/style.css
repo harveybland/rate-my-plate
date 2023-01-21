@@ -123,7 +123,7 @@ header h1 {
   align-items: center;
   justify-content: center;
   gap: 5px;
-  padding-bottom: 5px;
+  padding: 10px 0;
 }
 
 .list .form button {
