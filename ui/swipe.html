@@ -37,7 +37,7 @@
 
         .tinder {
             width: 100vw;
-            height: 100vh;
+            height: calc(100vh - 100px);
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -94,16 +94,15 @@
             display: inline-block;
             width: 90vw;
             max-width: 400px;
-            height: 70vh;
+            height: 65vh;
             background: #FFFFFF;
             padding-bottom: 40px;
             border-radius: 8px;
             overflow: hidden;
             position: absolute;
+            top: 100px;
             will-change: transform;
             transition: all 0.3s ease-in-out;
-            cursor: -webkit-grab;
-            cursor: -moz-grab;
             cursor: grab;
         }
 
@@ -117,6 +116,9 @@
         .tinder--card img {
             max-width: 100%;
             pointer-events: none;
+            height: 400px;
+            width: 100%;
+            object-fit: cover;
         }
 
         .tinder--card h3 {
@@ -143,6 +145,7 @@
             border-radius: 50%;
             line-height: 60px;
             width: 60px;
+            height: 60px;
             border: 0;
             background: #FFFFFF;
             display: inline-block;
@@ -156,14 +159,18 @@
         .tinder--buttons i {
             font-size: 32px;
             vertical-align: middle;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        /* 
         .fa-heart {
             color: #FFACE4;
-        }
+        } */
 
-        .fa-remove {
-            color: #CDD6DD;
+        .fa-remove svg {
+            fill: #CDD6DD;
         }
     </style>
     <title>Rate My Plate</title>
@@ -182,16 +189,59 @@
 
     <div class="tinder">
         <div class="tinder--status">
-            <i class="fa fa-remove"></i>
-            <i class="fa fa-heart"></i>
+            <i class="fa fa-remove">
+                <?xml version="1.0" encoding="utf-8"?>
+                <svg fill="#000000" width="100px" height="100px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                </svg>
+            </i>
+            <i class="fa fa-heart">
+                <svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" width="85px" height="85px" viewBox="0 0 512 512"
+                    xml:space="preserve">
+                    <style type="text/css">
+                        .st0 {
+                            fill: #FFACE4;
+                        }
+                    </style>
+                    <g>
+                        <path class="st0" d="M473.984,74.248c-50.688-50.703-132.875-50.703-183.563,0c-17.563,17.547-29.031,38.891-34.438,61.391
+c-5.375-22.5-16.844-43.844-34.406-61.391c-50.688-50.703-132.875-50.703-183.563,0c-50.688,50.688-50.688,132.875,0,183.547
+l217.969,217.984l218-217.984C524.672,207.123,524.672,124.936,473.984,74.248z" />
+                    </g>
+                </svg>
+            </i>
         </div>
 
         <div class="tinder--cards" id="swipe">
         </div>
 
         <div class="tinder--buttons">
-            <button id="nope"><i class="fa fa-remove">no</i></button>
-            <button id="love"><i class="fa fa-heart">yes</i></button>
+            <button id="nope"><i class="fa fa-remove">
+                    <?xml version="1.0" encoding="utf-8"?>
+                    <svg fill="#000000" width="40px" height="40px" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                    </svg>
+                </i></button>
+            <button id="love"><i class="fa fa-heart">
+                    <svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" width="32px" height="32px" viewBox="0 0 512 512"
+                        xml:space="preserve">
+                        <style type="text/css">
+                            .st0 {
+                                fill: #FFACE4;
+                            }
+                        </style>
+                        <g>
+                            <path class="st0" d="M473.984,74.248c-50.688-50.703-132.875-50.703-183.563,0c-17.563,17.547-29.031,38.891-34.438,61.391
+		c-5.375-22.5-16.844-43.844-34.406-61.391c-50.688-50.703-132.875-50.703-183.563,0c-50.688,50.688-50.688,132.875,0,183.547
+		l217.969,217.984l218-217.984C524.672,207.123,524.672,124.936,473.984,74.248z" />
+                        </g>
+                    </svg>
+                </i></button>
         </div>
     </div>
 </body>
