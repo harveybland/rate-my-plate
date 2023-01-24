@@ -4,6 +4,8 @@ const core = require('../core');
 const rateMyPlateSchema = new core.Schema({
   contentType: String,
   image: Buffer,
+  title: String,
+  desc: String,
   rating: Number,
   rated: { type: Boolean, default: false },
 });

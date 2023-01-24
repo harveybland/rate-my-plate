@@ -29,14 +29,15 @@
             justify-content: space-evenly;
         }
 
-        .list-row p {
-            font-size: 2rem;
+        .list-row .text {
+            width: 100%;
+            font-size: 1.5rem;
             padding: 20px;
             background: #fff;
-            padding: 50px 80px;
-            border-radius: 10px;
-            margin-top: 10px;
+            padding: 20px;
+            border-radius: 0 0 10px 10px;
             box-shadow: 0 4px 5px #00000021;
+            text-align: center;
         }
     </style>
     <title>LeaderBoard</title>
@@ -46,7 +47,7 @@
 
     <header>
         <h1>
-            <a href="index.html">Rate My Plate</a>
+            <a href="index.html">Scrander</a>
         </h1>
         <nav>
             <a href="mypage.html">My Plate</a>
@@ -56,20 +57,21 @@
 
     <div class="body">
         <div class="leaderboard">
-            <h2>Worst Plate Of The Week</h2>
+            <h2>Scran you have loved</h2>
             <div id="ratemyplate"></div>
         </div>
     </div>
 
     <script>
-        fetch('http://localhost:8080/api/photos').then(res => res.json()).then(data => {
+        fetch('https://simpleats.azurewebsites.net/api/photos').then(res => res.json()).then(data => {
             const html = data.sort((a, b) => (a.rating < b.rating ? 1 : -1)).map((array) => {
                 return `
             <div class="list list-row">
                 <div>
-                    <img src="http://localhost:8080/api/photo/${array.id}" />
+                    <img src="https://simpleats.azurewebsites.net/api/photo/${array.id}" />
                 </div>
-                <div>
+                <div class="text">
+                    <p>${array.title}</p>
                     <p>${array.rating}</p>
                 </div>
             </div>

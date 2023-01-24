@@ -21,7 +21,8 @@
             padding: 0 20px;
             flex-wrap: wrap;
             display: flex;
-            align-items: flex-end;
+            align-items: center;
+            flex-direction: column;
             justify-content: center;
         }
 
@@ -29,8 +30,53 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-direction: column;
             flex-wrap: wrap;
             gap: 10px;
+        }
+
+        .upload-wrapper .text {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            flex-direction: column;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .live {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .live h1 {
+            color: #333;
+            font-size: 1.5rem;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .live span {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            background: #fff;
+        }
+
+
+        .live .text label {
+            margin-top: 10px;
+            margin-bottom: 3px;
+        }
+
+        .live span .text input {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        textarea {
+            resize: none;
+            width: 100%;
         }
 
         #remove {
@@ -42,6 +88,7 @@
             display: none;
             align-items: center;
             justify-content: center;
+            color: #000;
         }
 
         #img {
@@ -82,7 +129,7 @@
 <body>
     <header>
         <h1>
-            <a href="index.html">Rate My Plate</a>
+            <a href="index.html">Scrander</a>
         </h1>
         <nav>
             <a href="mypage.html">My Plate</a>
@@ -92,6 +139,15 @@
 
     <div class="body">
         <div class="mypage">
+            <div class="live">
+                <h1>Live</h1>
+                <div id="image"></div>
+                <span>
+                    <p id="title"></p>
+                    <p id="desc"></p>
+                </span>
+                <button type="button" id="delete" class="btn btn-red">Delete</button>
+            </div>
             <form id="formElem">
                 <div class="upload-wrapper">
                     <div class="upload">
@@ -102,13 +158,15 @@
                         <h2>Preview</h2>
                         <img id="img" src="#" />
                     </div>
+                    <!-- <span class="text">
+                        <label>Title</label>
+                        <input id="input-title" type="text">
+                        <label>Description <span>(max length 100 characters)</span></label>
+                        <textarea id="input-desc" type="text" maxlength="50"></textarea>
+                    </span> -->
                 </div>
                 <button type="submit" id="submit" class="btn btn-disabled" value="Upload an Image">Submit</button>
             </form>
-            <div>
-                <div id="image"></div>
-                <button type="button" id="delete" class="btn btn-red">Delete</button>
-            </div>
         </div>
     </div>
 
@@ -117,11 +175,13 @@
         document.getElementById('delete').style.display = 'none';
         // get image
         if (!!userId) {
-            fetch(`http://localhost:8080/api/myphoto/${userId}`).then(res => res.json()).then(data => {
+            fetch(`https://simpleats.azurewebsites.net/api/myphoto/${userId}`).then(res => res.json()).then(data => {
                 const id = data._id;
                 const image = document.createElement('img');
-                image.src = `http://localhost:8080/api/photo/${id}`;
+                image.src = `https://simpleats.azurewebsites.net/api/photo/${id}`;
                 document.querySelector('#image').appendChild(image);
+                let title = document.getElementById('title').innerHTML = data.title;
+                let text = document.getElementById('desc').innerHTML = data.desc;
             })
 
             document.getElementById('delete').style.display = 'block';
@@ -129,7 +189,7 @@
             // delete
             document.getElementById('delete').onclick = function () {
                 window.localStorage.removeItem('userId');
-                fetch(`http://localhost:8080/api/myphoto/${userId}`, {
+                fetch(`https://simpleats.azurewebsites.net/api/myphoto/${userId}`, {
                     method: 'DELETE'
                 }).then(res => res.json())
                     .then(data => window.location.reload());
@@ -162,10 +222,10 @@
 
         form.addEventListener('submit', async function (e) {
             e.preventDefault();
-            fetch(`http://localhost:8080/api/myphoto/${userId}`, {
+            fetch(`https://simpleats.azurewebsites.net/api/myphoto/${userId}`, {
                 method: 'DELETE'
             })
-            let response = await fetch('http://localhost:8080/api/uploadphoto', {
+            let response = await fetch('https://simpleats.azurewebsites.net/api/uploadphoto', {
                 method: 'POST',
                 body: new FormData(formElem),
             })

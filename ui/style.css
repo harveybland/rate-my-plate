@@ -237,6 +237,12 @@ header h1 {
   display: none;
 }
 
+.btn-blue {
+  background-color: #10a1ab;
+  border: transparent;
+  color: #eee;
+}
+
 .true .btn {
   background-color: #cccccc;
   color: #666666;
@@ -256,7 +262,7 @@ header h1 {
   header a {
     margin: 0 2px;
     padding: 20px 8px 20px 10px;
-    font-size: 1.4rem;
+    font-size: 1.1rem;
   }
   header nav a {
     margin: 0px;
