@@ -47,7 +47,7 @@
 
     <header>
         <h1>
-            <a href="index.html">Scrander</a>
+            <a href="index.html">Rate My Plate</a>
         </h1>
         <nav>
             <a href="mypage.html">My Plate</a>
@@ -57,21 +57,19 @@
 
     <div class="body">
         <div class="leaderboard">
-            <h2>Scran you have loved</h2>
             <div id="ratemyplate"></div>
         </div>
     </div>
 
     <script>
-        fetch('https://simpleats.azurewebsites.net/api/photos').then(res => res.json()).then(data => {
+        fetch('http://localhost:8080/api/photos').then(res => res.json()).then(data => {
             const html = data.sort((a, b) => (a.rating < b.rating ? 1 : -1)).map((array) => {
                 return `
             <div class="list list-row">
                 <div>
-                    <img src="https://simpleats.azurewebsites.net/api/photo/${array.id}" />
+                    <img src="http://localhost:8080/api/photo/${array.id}" />
                 </div>
                 <div class="text">
-                    <p>${array.title}</p>
                     <p>${array.rating}</p>
                 </div>
             </div>

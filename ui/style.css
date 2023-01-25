@@ -205,11 +205,8 @@ header h1 {
   cursor: pointer;
 }
 
-#text {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 20px;
+.text {
+  font-size: 1.3rem;
 }
 
 /* button */

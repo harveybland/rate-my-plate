@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *:before,
+        *:after {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background: #CCFBFE;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+
+        #input {
+            width: 30px;
+            height: 30px;
+            margin-right: 4px;
+        }
+
+        .list {
+            min-height: 380px;
+        }
+
+        .tinder {
+            width: 100vw;
+            height: calc(100vh - 70px);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            opacity: 0;
+            transition: opacity 0.1s ease-in-out;
+        }
+
+        @media screen and (max-width: 500px) {
+            .tinder {
+                height: calc(100vh - 125px) !important;
+            }
+
+        }
+
+        .loaded.tinder {
+            opacity: 1;
+        }
+
+        .tinder--status {
+            position: absolute;
+            top: 50%;
+            margin-top: -30px;
+            z-index: 2;
+            width: 100%;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .tinder--status i {
+            font-size: 100px;
+            opacity: 0;
+            transform: scale(0.3);
+            transition: all 0.2s ease-in-out;
+            position: absolute;
+            width: 100px;
+            margin-left: -50px;
+        }
+
+        .tinder_love .fa-heart {
+            opacity: 0.7;
+            transform: scale(1);
+        }
+
+        .tinder_nope .fa-remove {
+            opacity: 0.7;
+            transform: scale(1);
+        }
+
+        .tinder--cards {
+            flex-grow: 1;
+            padding-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 1;
+        }
+
+        .tinder--card {
+            display: inline-block;
+            width: 90vw;
+            max-width: 400px;
+            height: 65vh;
+            background: #FFFFFF;
+            padding-bottom: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: absolute;
+            top: 100px;
+            will-change: transform;
+            transition: all 0.3s ease-in-out;
+            cursor: grab;
+        }
+
+        @media screen and (max-width: 500px) {
+            .tinder--card {
+                height: 450px;
+                top: 60px;
+            }
+
+            .tinder--card img {
+                height: 300px !important;
+            }
+        }
+
+        .moving.tinder--card {
+            transition: none;
+            cursor: -webkit-grabbing;
+            cursor: -moz-grabbing;
+            cursor: grabbing;
+        }
+
+        .tinder--card img {
+            max-width: 100%;
+            pointer-events: none;
+            height: 400px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .tinder--card h3 {
+            margin-top: 32px;
+            font-size: 32px;
+            padding: 0 16px;
+            pointer-events: none;
+        }
+
+        .tinder--card p {
+            margin-top: 24px;
+            font-size: 20px;
+            padding: 0 16px;
+            pointer-events: none;
+        }
+
+        .tinder--buttons {
+            flex: 0 0 100px;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .tinder--buttons button {
+            border-radius: 50%;
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 0;
+            background: #FFFFFF;
+            display: inline-block;
+            margin: 0 8px;
+        }
+
+        .tinder--buttons button:focus {
+            outline: 0;
+        }
+
+        .tinder--buttons i {
+            font-size: 32px;
+            vertical-align: middle;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 
+        .fa-heart {
+            color: #FFACE4;
+        } */
+
+        .fa-remove svg {
+            fill: #CDD6DD;
+        }
+    </style>
+    <title>Scrander</title>
+</head>
+
+<body>
+    <header>
+        <h1>
+            <a href="index.html">Scrander</a>
+        </h1>
+        <nav>
+            <a href="mypage.html">My Plate</a>
+            <a href="leaderboard.html">Leaderboard</a>
+        </nav>
+    </header>
+
+    <div class="tinder">
+        <div class="tinder--status">
+            <i class="fa fa-remove">
+                <?xml version="1.0" encoding="utf-8"?>
+                <svg fill="#000000" width="100px" height="100px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                </svg>
+            </i>
+            <i class="fa fa-heart">
+                <svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" width="85px" height="85px" viewBox="0 0 512 512"
+                    xml:space="preserve">
+                    <style type="text/css">
+                        .st0 {
+                            fill: #FFACE4;
+                        }
+                    </style>
+                    <g>
+                        <path class="st0" d="M473.984,74.248c-50.688-50.703-132.875-50.703-183.563,0c-17.563,17.547-29.031,38.891-34.438,61.391
+c-5.375-22.5-16.844-43.844-34.406-61.391c-50.688-50.703-132.875-50.703-183.563,0c-50.688,50.688-50.688,132.875,0,183.547
+l217.969,217.984l218-217.984C524.672,207.123,524.672,124.936,473.984,74.248z" />
+                    </g>
+                </svg>
+            </i>
+        </div>
+
+        <div class="tinder--cards" id="swipe">
+        </div>
+
+        <div class="tinder--buttons">
+            <button id="nope"><i class="fa fa-remove">
+                    <?xml version="1.0" encoding="utf-8"?>
+                    <svg fill="#000000" width="40px" height="40px" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                    </svg>
+                </i></button>
+            <button id="love"><i class="fa fa-heart">
+                    <svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" width="32px" height="32px" viewBox="0 0 512 512"
+                        xml:space="preserve">
+                        <style type="text/css">
+                            .st0 {
+                                fill: #FFACE4;
+                            }
+                        </style>
+                        <g>
+                            <path class="st0" d="M473.984,74.248c-50.688-50.703-132.875-50.703-183.563,0c-17.563,17.547-29.031,38.891-34.438,61.391
+		c-5.375-22.5-16.844-43.844-34.406-61.391c-50.688-50.703-132.875-50.703-183.563,0c-50.688,50.688-50.688,132.875,0,183.547
+		l217.969,217.984l218-217.984C524.672,207.123,524.672,124.936,473.984,74.248z" />
+                        </g>
+                    </svg>
+                </i></button>
+        </div>
+    </div>
+</body>
+
+<script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
+<script>
+    fetch('https://simpleats.azurewebsites.net/api/photos').then(res => res.json()).then(data => {
+        console.log(data)
+        const html = data.sort((a, b) => a < b ? 1 : -1).map((array) => {
+            return `
+            <div class="tinder--card">
+                <img src="https://simpleats.azurewebsites.net/api/photo/${array.id}" />
+                <h3>${array.title}</h3>
+                <p>${array.desc}</p>
+            </div>
+      `
+        }).join('');
+        document.querySelector('#swipe').insertAdjacentHTML('afterbegin', html);
+
+        var tinderContainer = document.querySelector('.tinder');
+        var allCards = document.querySelectorAll('.tinder--card');
+        var nope = document.getElementById('nope');
+        var love = document.getElementById('love');
+
+        function initCards(card, index) {
+            var newCards = document.querySelectorAll('.tinder--card:not(.removed)');
+
+            newCards.forEach(function (card, index) {
+                card.style.zIndex = allCards.length - index;
+                card.style.transform = 'scale(' + (20 - index) / 20 + ') translateY(-' + 30 * index + 'px)';
+                card.style.opacity = (10 - index) / 10;
+            });
+
+            tinderContainer.classList.add('loaded');
+        }
+
+        initCards();
+
+        allCards.forEach(function (el) {
+            var hammertime = new Hammer(el);
+
+            hammertime.on('pan', function (event) {
+                el.classList.add('moving');
+            });
+
+            hammertime.on('pan', function (event) {
+                if (event.deltaX === 0) return;
+                if (event.center.x === 0 && event.center.y === 0) return;
+
+                tinderContainer.classList.toggle('tinder_love', event.deltaX > 0);
+                tinderContainer.classList.toggle('tinder_nope', event.deltaX < 0);
+
+                var xMulti = event.deltaX * 0.03;
+                var yMulti = event.deltaY / 80;
+                var rotate = xMulti * yMulti;
+
+                event.target.style.transform = 'translate(' + event.deltaX + 'px, ' + event.deltaY + 'px) rotate(' + rotate + 'deg)';
+            });
+
+            hammertime.on('panend', function (event) {
+                el.classList.remove('moving');
+                tinderContainer.classList.remove('tinder_love');
+                tinderContainer.classList.remove('tinder_nope');
+
+                var moveOutWidth = document.body.clientWidth;
+                var keep = Math.abs(event.deltaX) < 80 || Math.abs(event.velocityX) < 0.5;
+
+                event.target.classList.toggle('removed', !keep);
+
+                if (keep) {
+                    event.target.style.transform = '';
+                } else {
+                    var endX = Math.max(Math.abs(event.velocityX) * moveOutWidth, moveOutWidth);
+                    var toX = event.deltaX > 0 ? endX : -endX;
+                    var endY = Math.abs(event.velocityY) * moveOutWidth;
+                    var toY = event.deltaY > 0 ? endY : -endY;
+                    var xMulti = event.deltaX * 0.03;
+                    var yMulti = event.deltaY / 80;
+                    var rotate = xMulti * yMulti;
+
+                    event.target.style.transform = 'translate(' + toX + 'px, ' + (toY + event.deltaY) + 'px) rotate(' + rotate + 'deg)';
+                    initCards();
+                }
+            });
+        });
+
+        function createButtonListener(love) {
+            return function (event) {
+                var cards = document.querySelectorAll('.tinder--card:not(.removed)');
+                var moveOutWidth = document.body.clientWidth * 1.5;
+
+                if (!cards.length) return false;
+
+                var card = cards[0];
+
+                card.classList.add('removed');
+
+                if (love) {
+                    card.style.transform = 'translate(' + moveOutWidth + 'px, -100px) rotate(-30deg)';
+                } else {
+                    card.style.transform = 'translate(-' + moveOutWidth + 'px, -100px) rotate(30deg)';
+                }
+
+                initCards();
+
+                event.preventDefault();
+            };
+        }
+
+        var nopeListener = createButtonListener(false);
+        var loveListener = createButtonListener(true);
+
+        nope.addEventListener('click', nopeListener);
+        love.addEventListener('click', loveListener);
+    });
+</script>
+
+</html>

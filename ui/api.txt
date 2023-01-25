@@ -1,0 +1,3 @@
+https://simpleats.azurewebsites.net
+
+http://localhost:8080

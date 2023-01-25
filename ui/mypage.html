@@ -44,41 +44,6 @@
             gap: 10px;
         }
 
-        .live {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .live h1 {
-            color: #333;
-            font-size: 1.5rem;
-            text-align: center;
-            padding: 10px 0;
-        }
-
-        .live span {
-            display: flex;
-            flex-direction: column;
-            padding: 10px;
-            background: #fff;
-        }
-
-
-        .live .text label {
-            margin-top: 10px;
-            margin-bottom: 3px;
-        }
-
-        .live span .text input {
-            margin-bottom: 15px;
-            width: 100%;
-        }
-
-        textarea {
-            resize: none;
-            width: 100%;
-        }
-
         #remove {
             position: absolute;
             right: 10px;
@@ -129,7 +94,7 @@
 <body>
     <header>
         <h1>
-            <a href="index.html">Scrander</a>
+            <a href="index.html">Rate My Plate</a>
         </h1>
         <nav>
             <a href="mypage.html">My Plate</a>
@@ -139,13 +104,8 @@
 
     <div class="body">
         <div class="mypage">
-            <div class="live">
-                <h1>Live</h1>
+            <div>
                 <div id="image"></div>
-                <span>
-                    <p id="title"></p>
-                    <p id="desc"></p>
-                </span>
                 <button type="button" id="delete" class="btn btn-red">Delete</button>
             </div>
             <form id="formElem">
@@ -158,12 +118,6 @@
                         <h2>Preview</h2>
                         <img id="img" src="#" />
                     </div>
-                    <!-- <span class="text">
-                        <label>Title</label>
-                        <input id="input-title" type="text">
-                        <label>Description <span>(max length 100 characters)</span></label>
-                        <textarea id="input-desc" type="text" maxlength="50"></textarea>
-                    </span> -->
                 </div>
                 <button type="submit" id="submit" class="btn btn-disabled" value="Upload an Image">Submit</button>
             </form>
@@ -173,15 +127,14 @@
     <script>
         var userId = localStorage.getItem("userId");
         document.getElementById('delete').style.display = 'none';
+
         // get image
         if (!!userId) {
-            fetch(`https://simpleats.azurewebsites.net/api/myphoto/${userId}`).then(res => res.json()).then(data => {
+            fetch(`http://localhost:8080/api/myphoto/${userId}`).then(res => res.json()).then(data => {
                 const id = data._id;
                 const image = document.createElement('img');
-                image.src = `https://simpleats.azurewebsites.net/api/photo/${id}`;
+                image.src = `http://localhost:8080/api/photo/${id}`;
                 document.querySelector('#image').appendChild(image);
-                let title = document.getElementById('title').innerHTML = data.title;
-                let text = document.getElementById('desc').innerHTML = data.desc;
             })
 
             document.getElementById('delete').style.display = 'block';
@@ -189,7 +142,7 @@
             // delete
             document.getElementById('delete').onclick = function () {
                 window.localStorage.removeItem('userId');
-                fetch(`https://simpleats.azurewebsites.net/api/myphoto/${userId}`, {
+                fetch(`http://localhost:8080/api/myphoto/${userId}`, {
                     method: 'DELETE'
                 }).then(res => res.json())
                     .then(data => window.location.reload());
@@ -222,18 +175,19 @@
 
         form.addEventListener('submit', async function (e) {
             e.preventDefault();
-            fetch(`https://simpleats.azurewebsites.net/api/myphoto/${userId}`, {
-                method: 'DELETE'
-            })
-            let response = await fetch('https://simpleats.azurewebsites.net/api/uploadphoto', {
+            // fetch(`http://localhost:8080/api/myphoto/${userId}`, {
+            //     method: 'DELETE'
+            // })
+            let response = await fetch('http://localhost:8080/api/uploadphoto', {
                 method: 'POST',
                 body: new FormData(formElem),
             })
                 .then((res) => res.json())
                 .then((data) => {
+                    console.log(data)
                     const userId = data;
                     window.localStorage.setItem('userId', userId);
-                    window.location.href = 'index.html';
+                    // window.location.href = 'index.html';
                     // window.location.reload()
                 });
         });
