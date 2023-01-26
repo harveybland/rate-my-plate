@@ -175,19 +175,18 @@
 
         form.addEventListener('submit', async function (e) {
             e.preventDefault();
-            // fetch(`http://localhost:8080/api/myphoto/${userId}`, {
-            //     method: 'DELETE'
-            // })
+            fetch(`http://localhost:8080/api/myphoto/${userId}`, {
+                method: 'DELETE'
+            })
             let response = await fetch('http://localhost:8080/api/uploadphoto', {
                 method: 'POST',
                 body: new FormData(formElem),
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log(data)
                     const userId = data;
                     window.localStorage.setItem('userId', userId);
-                    // window.location.href = 'index.html';
+                    window.location.href = 'index.html';
                     // window.location.reload()
                 });
         });
